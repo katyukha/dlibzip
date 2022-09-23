@@ -1,9 +1,11 @@
 name "dlibzip"
 description "Deimos bindings for libzip. Library to create/modify zip and zip64 archives."
+homepage "https://libzip.org/"
 authors "Dmytro Katyukha"
 copyright "Copyright © 2022, Dmytro Katyukha"
 license "BSD 3-clause"
 targetPath "build"
+targetType "sourceLibrary"
 
 systemDependencies "libzip"
 libs "zip"
@@ -14,7 +16,6 @@ configuration "application" {
 }
 
 configuration "sourceLibrary" {
-    targetType "sourceLibrary"
     excludedSourceFiles "examples/*"
     sourcePaths "source"
     importPaths "source"

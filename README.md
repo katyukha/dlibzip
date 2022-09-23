@@ -9,4 +9,5 @@ that loads whole zip archive in memory).
 Version of [libzip](https://libzip.org/): 1.9.2
 Git repository for [libzip](https://libzip.org/): https://github.com/nih-at/libzip
 
-Original lib and binding are released under BSD 3-clause license.
+## License
+Original library and D bindings are released under the BSD 3-clause license.
