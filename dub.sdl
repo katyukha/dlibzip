@@ -1,0 +1,21 @@
+name "libzip-d"
+description "D Binding to libzip"
+authors "Dmytro Katyukha"
+copyright "Copyright © 2022, Dmytro Katyukha"
+license "BSD 3-clause"
+targetPath "build"
+
+systemDependencies "libzip"
+libs "zip"
+
+configuration "application" {
+    targetType "executable"
+    mainSourceFile "examples/app.d"
+}
+
+configuration "sourceLibrary" {
+    targetType "sourceLibrary"
+    excludedSourceFiles "examples/*"
+    sourcePaths "source" "libzip/build/lib"
+    importPaths "source"
+}

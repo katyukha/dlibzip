@@ -1,0 +1,17 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/libzip-d
+libzip-d.so
+libzip-d.dylib
+libzip-d.dll
+libzip-d.a
+libzip-d.lib
+libzip-d-test-*
+*.exe
+*.o
+*.obj
+*.lst
+*.sw[pno]
+/build/
