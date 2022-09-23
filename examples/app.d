@@ -1,7 +1,7 @@
 import std.stdio;
 import std.string: toStringz, fromStringz;
 import std.format: format;
-import deimos.libzip.zip;
+import deimos.zip;
 
 string get_manifest_content(zip_t* zip_obj) {
     if (zip_name_locate(zip_obj, "manifest.json".toStringz, ZIP_FL_ENC_GUESS)) {

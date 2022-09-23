@@ -1,4 +1,4 @@
-module deimos.libzip.zip;
+module deimos.zip;
 
 /*
   zip.h -- exported declarations.
