@@ -37,6 +37,18 @@ module deimos.libzip.zip;
 public import core.stdc.time;
 public import core.stdc.stdio;
 
+/* Notes
+
+Following definitions relaced by standard d types.
+Possibly it have sense to revert this change, and use aliases instead.
+    ZIP_UINT16_MAX = ushort.max
+    zip_int64_t = long
+    zip_uint64_t = ulong
+    zip_uint32_t = uint
+    zip_uint16_t = ushort
+    zip_uint8_t = ubyte
+*/
+
 extern (C):
 @nogc nothrow:
 
@@ -216,7 +228,27 @@ enum zip_source_cmd {
     ZIP_SOURCE_ACCEPT_EMPTY,        /* whether empty files are valid archives */
     ZIP_SOURCE_GET_FILE_ATTRIBUTES  /* get additional file attributes */
 };
-alias zip_source_cmd zip_source_cmd_t;
+alias zip_source_cmd_t = zip_source_cmd;
+
+extern (D) auto ZIP_SOURCE_MAKE_COMMAND_BITMASK(T)(auto ref T cmd)
+{
+    return (cast(long) 1) << cmd;
+}
+
+extern (D) auto ZIP_SOURCE_CHECK_SUPPORTED(T0, T1)(auto ref T0 supported, auto ref T1 cmd)
+{
+    return (supported & ZIP_SOURCE_MAKE_COMMAND_BITMASK(cmd)) != 0;
+}
+
+/* clang-format off */
+
+enum ZIP_SOURCE_SUPPORTS_READABLE = ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_OPEN) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_READ) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_CLOSE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_STAT) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_ERROR) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_FREE);
+
+enum ZIP_SOURCE_SUPPORTS_SEEKABLE = ZIP_SOURCE_SUPPORTS_READABLE | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_SEEK) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_TELL) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_SUPPORTS);
+
+enum ZIP_SOURCE_SUPPORTS_WRITABLE = ZIP_SOURCE_SUPPORTS_SEEKABLE | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_BEGIN_WRITE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_COMMIT_WRITE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_ROLLBACK_WRITE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_WRITE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_SEEK_WRITE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_TELL_WRITE) | ZIP_SOURCE_MAKE_COMMAND_BITMASK(zip_source_cmd_t.ZIP_SOURCE_REMOVE);
+
+/* clang-format on */
 
 /* for use by sources */
 struct zip_source_args_seek {
@@ -224,7 +256,7 @@ struct zip_source_args_seek {
     int whence;
 };
 
-alias zip_source_args_seek zip_source_args_seek_t;
+alias zip_source_args_seek_t = zip_source_args_seek;
 
 /* error information */
 /* use zip_error_*() to access */
@@ -285,18 +317,18 @@ struct zip;
 struct zip_file;
 struct zip_source;
 
-alias zip zip_t;
-alias zip_error zip_error_t;
-alias zip_file zip_file_t;
-alias zip_file_attributes zip_file_attributes_t;
-alias zip_source zip_source_t;
-alias zip_buffer_fragment zip_buffer_fragment_t;
+alias zip_t = zip;
+alias zip_error_t = zip_error;
+alias zip_file_t = zip_file;
+alias zip_file_attributes_t = zip_file_attributes;
+alias zip_source_t = zip_source;
+alias zip_buffer_fragment_t = zip_buffer_fragment;
 
-alias uint zip_flags_t;
+alias zip_flags_t = uint;
 
-alias long function(void*, void*, ulong, zip_source_cmd_t) zip_source_callback;
-alias void function(zip_t*, double, void*) zip_progress_callback;
-alias int function(zip_t*, void*) zip_cancel_callback;
+alias zip_source_callback = long function(void*, void*, ulong, zip_source_cmd_t);
+alias zip_progress_callback = void function(zip_t*, double, void*);
+alias zip_cancel_callback = int function(zip_t*, void*);
 
 // Disabis deprecated functions. Currently they are just commented. Possibly it have sense to use custom configuration version here
 // version(_ZIP_COMPILING_DEPRECATED) {
