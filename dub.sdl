@@ -10,9 +10,16 @@ targetType "sourceLibrary"
 systemDependencies "libzip"
 libs "zip"
 
-configuration "application" {
+configuration "application_example_1" {
     targetType "executable"
+    targetName "example_1"
     mainSourceFile "examples/app.d"
+}
+
+configuration "application_unarchive" {
+    targetType "executable"
+    targetName "unarchive"
+    mainSourceFile "examples/unarchive.d"
 }
 
 configuration "sourceLibrary" {
